@@ -13,15 +13,52 @@
             </div>
             <div class="graph">
                 <svg xmlns="http://www.w3.org/2000/svg" id="svg" viewBox="0 0 1000 550">
-                    <circle id="a" cx="50" cy="50" r="40" fill="#02A1E0"/>
-                    <circle id="b" cx="150" cy="500" r="40" fill="#02A1E0"/>
-                    <circle id="c" cx="250" cy="200" r="40" fill="#02A1E0"/>
-                    <circle id="d" cx="350" cy="300" r="40" fill="#02A1E0"/>
-                    <circle id="e" cx="500" cy="500" r="40" fill="#02A1E0"/>
-                    <circle id="f" cx="400" cy="180" r="40" fill="#02A1E0"/>
-                    <circle id="g" cx="800" cy="300" r="40" fill="#02A1E0"/>
-                    <circle id="h" cx="700" cy="100" r="40" fill="#02A1E0"/>
-                    <circle id="i" cx="900" cy="500" r="40" fill="#02A1E0"/>
+                    <g>
+                        <circle id="a" cx="50" cy="50" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="50" y="50">A</text>
+                        <text id="a-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="120" y="50">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="b" cx="150" cy="500" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="150" y="500">B</text>
+                        <text id="b-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="220" y="500">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="c" cx="250" cy="200" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="250" y="200">C</text>
+                        <text id="c-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="250" y="130">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="d" cx="350" cy="300" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="350" y="300">D</text>
+                        <text id="d-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="420" y="300">[ , ]</text>
+                    </g>
+
+                    <g>
+                        <circle id="e" cx="500" cy="500" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="500" y="500">E</text>
+                        <text id="e-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="430" y="500">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="f" cx="400" cy="180" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="400" y="180">F</text>
+                        <text id="f-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="400" y="110">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="g" cx="800" cy="300" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="800" y="300">G</text>
+                        <text id="g-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="870" y="300">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="h" cx="700" cy="100" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="700" y="100">H</text>
+                        <text id="h-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="770" y="100">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="i" cx="900" cy="500" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="900" y="500">I</text>
+                        <text id="i-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="900" y="430">[ , ]</text>
+                    </g>
                 </svg>
             </div>
         </div>
@@ -105,21 +142,33 @@
                 visited[nodes[i]] = false
             }
             dfsHelper(nodes[0], visited)
-            console.log('done')
         }
 
+        // Static count variable to be used for pre and post
+        var count = 0
+
         async function dfsHelper(index, visited) {
+            console.log(count)
+            // Visit the node
             visited[index] = true
-            document.getElementById(index).setAttribute('fill', '#0AC97E')
+            // Increment and save count for later
+            count++
+            var pre = count
+            // Get circle and prepost text elements
+            var circle = document.getElementById(index)
+            var prepost = document.getElementById(index + "-prepost")
+            // Update UI values for this node
+            prepost.textContent = "[" + count + ", ]"
+            circle.setAttribute('fill', '#0AC97E')
+            // Iterate through children
             var currentNode = adjacent[index]
             for (child in currentNode) {
                 if (!visited[currentNode[child]]) {
-                    await sleep(500)
                     dfsHelper(currentNode[child], visited)
-                    await sleep(500)
                 }
             }
-            await sleep(500)
+            count++
+            prepost.textContent = "[" + pre + ", " + count + "]"
         }
 
         function sleep(ms) {
@@ -154,6 +203,14 @@
             box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
             background-color: white;
             border-radius: 8px;
+        }
+
+        .svg-text {
+            font-size: 24px;
+        }
+
+        .svg-prepost {
+            font-size: 22px;
         }
 
         .title {
