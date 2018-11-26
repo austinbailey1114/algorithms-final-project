@@ -15,51 +15,54 @@
                 <svg xmlns="http://www.w3.org/2000/svg" id="svg" viewBox="0 0 1000 550">
                     <g>
                         <circle id="a" cx="50" cy="50" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="50" y="50">A</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="50" y="50">a</text>
                         <text id="a-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="120" y="50">[ , ]</text>
                     </g>
                     <g>
                         <circle id="b" cx="150" cy="500" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="150" y="500">B</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="150" y="500">b</text>
                         <text id="b-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="220" y="500">[ , ]</text>
                     </g>
                     <g>
                         <circle id="c" cx="250" cy="200" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="250" y="200">C</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="250" y="200">c</text>
                         <text id="c-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="250" y="130">[ , ]</text>
                     </g>
                     <g>
                         <circle id="d" cx="350" cy="300" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="350" y="300">D</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="350" y="300">d</text>
                         <text id="d-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="420" y="300">[ , ]</text>
                     </g>
 
                     <g>
                         <circle id="e" cx="500" cy="500" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="500" y="500">E</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="500" y="500">e</text>
                         <text id="e-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="430" y="500">[ , ]</text>
                     </g>
                     <g>
                         <circle id="f" cx="400" cy="180" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="400" y="180">F</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="400" y="180">f</text>
                         <text id="f-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="400" y="110">[ , ]</text>
                     </g>
                     <g>
                         <circle id="g" cx="800" cy="300" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="800" y="300">G</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="800" y="300">g</text>
                         <text id="g-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="870" y="300">[ , ]</text>
                     </g>
                     <g>
                         <circle id="h" cx="700" cy="100" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="700" y="100">H</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="700" y="100">h</text>
                         <text id="h-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="770" y="100">[ , ]</text>
                     </g>
                     <g>
                         <circle id="i" cx="900" cy="500" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="900" y="500">I</text>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="900" y="500">i</text>
                         <text id="i-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="900" y="430">[ , ]</text>
                     </g>
                 </svg>
+            </div>
+            <div class="to-explore-cotainer">
+                <p id="to-explore">To Explore: a, b, c, d, e, f, g, h, i,</p>
             </div>
         </div>
     </body>
@@ -134,8 +137,10 @@
             }
         }
 
+        // Set event listener to button click
         document.getElementById("doDFS").addEventListener("click", DFS);
 
+        // Calls actual DFS function
         function DFS() {
             var visited = {};
             for (var i = 0; i < nodes.length; i++) {
@@ -148,18 +153,22 @@
         var count = 0
 
         async function dfsHelper(index, visited) {
-            console.log(count)
             // Visit the node
             visited[index] = true
             // Increment and save count for later
             count++
             var pre = count
+            var copyOfVisited = Object.assign({}, visited)
             // Get circle and prepost text elements
             var circle = document.getElementById(index)
             var prepost = document.getElementById(index + "-prepost")
             // Update UI values for this node
-            prepost.textContent = "[" + count + ", ]"
-            circle.setAttribute('fill', '#0AC97E')
+            setTimeout(function() {
+                prepost.textContent = "[" + pre + ", ]"
+                circle.setAttribute('fill', '#0AC97E')
+                outputToExplore(copyOfVisited)
+            }, count * 1000)
+
             // Iterate through children
             var currentNode = adjacent[index]
             for (child in currentNode) {
@@ -167,12 +176,25 @@
                     dfsHelper(currentNode[child], visited)
                 }
             }
+            // Increment count, save current count in post variable
             count++
-            prepost.textContent = "[" + pre + ", " + count + "]"
+            var post = count
+            console.log(count)
+            // Update post number for this node
+            setTimeout(function() {
+                prepost.textContent = "[" + pre + ", " + post + "]"
+            }, count * 1000)
         }
 
-        function sleep(ms) {
-          return new Promise(resolve => setTimeout(resolve, ms));
+        function outputToExplore(visited) {
+            var output = "To Explore: "
+            for (var i = 0; i < nodes.length; i++) {
+                if (!visited[nodes[i]]) {
+                    output += nodes[i] + ", "
+                }
+            }
+            console.log(output)
+            document.getElementById("to-explore").innerHTML = output
         }
     </script>
     <style media="screen">
