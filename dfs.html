@@ -142,6 +142,7 @@
 
         // Calls actual DFS function
         function DFS() {
+            // Initialize visited to false for all
             var visited = {};
             for (var i = 0; i < nodes.length; i++) {
                 visited[nodes[i]] = false
@@ -167,8 +168,7 @@
                 prepost.textContent = "[" + pre + ", ]"
                 circle.setAttribute('fill', '#0AC97E')
                 outputToExplore(copyOfVisited)
-            }, count * 1000)
-
+            }, count * 1500)
             // Iterate through children
             var currentNode = adjacent[index]
             for (child in currentNode) {
@@ -183,7 +183,7 @@
             // Update post number for this node
             setTimeout(function() {
                 prepost.textContent = "[" + pre + ", " + post + "]"
-            }, count * 1000)
+            }, count * 1500)
         }
 
         function outputToExplore(visited) {
@@ -267,6 +267,10 @@
             float: right;
             cursor: pointer;
             margin-top: 30px;
+        }
+
+        pre {
+            font-family: 'Nunito';
         }
     </style>
 </html>

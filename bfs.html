@@ -3,8 +3,265 @@
     <head>
         <meta charset="utf-8">
         <title>BFS</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700">
+        <script type="text/javascript" src="./Queue.js"></script>
     </head>
     <body>
-        Nothing here yet
+        <div class="main">
+            <div class="title-container">
+                <p class="title">Breadth First Search</p>
+                <button id="doBFS">Run BFS Visualization</button>
+            </div>
+            <div class="graph">
+                <svg xmlns="http://www.w3.org/2000/svg" id="svg" viewBox="0 0 1000 550">
+                    <g>
+                        <circle id="a" cx="50" cy="50" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="50" y="50">a</text>
+                        <text id="a-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="120" y="50">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="b" cx="150" cy="500" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="150" y="500">b</text>
+                        <text id="b-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="220" y="500">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="c" cx="250" cy="200" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="250" y="200">c</text>
+                        <text id="c-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="250" y="130">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="d" cx="350" cy="300" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="350" y="300">d</text>
+                        <text id="d-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="420" y="300">[ , ]</text>
+                    </g>
+
+                    <g>
+                        <circle id="e" cx="500" cy="500" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="500" y="500">e</text>
+                        <text id="e-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="430" y="500">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="f" cx="400" cy="180" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="400" y="180">f</text>
+                        <text id="f-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="400" y="110">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="g" cx="800" cy="300" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="800" y="300">g</text>
+                        <text id="g-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="870" y="300">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="h" cx="700" cy="100" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="700" y="100">h</text>
+                        <text id="h-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="770" y="100">[ , ]</text>
+                    </g>
+                    <g>
+                        <circle id="i" cx="900" cy="500" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="900" y="500">i</text>
+                        <text id="i-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="900" y="430">[ , ]</text>
+                    </g>
+                </svg>
+            </div>
+            <div class="to-explore-cotainer">
+                <p id="to-explore">To Explore: a, b, c, d, e, f, g, h, i,</p>
+            </div>
+        </div>
     </body>
+    <script type="text/javascript">
+        var nodes = [
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i'
+        ]
+
+        var adjacent = {
+            a: [
+                'b',
+            ],
+            b: [
+                'c'
+            ],
+            c: [
+                'f',
+                'd'
+            ],
+            d: [
+                'e'
+            ],
+            e: [
+                'g',
+                'i'
+            ],
+            f: [
+                'h'
+            ],
+        };
+
+        // SVG Element to have lines appended to
+        var svg = document.getElementById('svg')
+
+        // Declare variables to hold circle data
+        var x1
+        var y1
+        var x2
+        var y2
+        var parentCircle
+        var childCircle
+
+        // Iterate through adjacent array to find lines to draw
+        for (var vertex in adjacent) {
+            // Get parent node data
+            parentCircle = document.getElementById(vertex)
+            x1 = parentCircle.getAttribute('cx')
+            y1 = parentCircle.getAttribute('cy')
+            // Iterate through all child nodes of the current parent
+            for (var i = 0; i < adjacent[vertex].length; i++) {
+                // Get child node data
+                childCircle = document.getElementById(adjacent[vertex][i])
+                x2 = childCircle.getAttribute('cx')
+                y2 = childCircle.getAttribute('cy')
+                // Draw new SVG line
+                var newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+                newLine.setAttribute('x1', x1);
+                newLine.setAttribute('y1', y1);
+                newLine.setAttribute('x2', x2);
+                newLine.setAttribute('y2', y2);
+                newLine.setAttribute("stroke", "#32325d")
+                newLine.setAttribute("stroke-width", 3)
+                svg.prepend(newLine);
+            }
+        }
+
+        // Set event listener to button click
+        document.getElementById("doBFS").addEventListener("click", BFS);
+
+        // Initialize visited to false for all
+        var visited = {};
+        for (var i = 0; i < nodes.length; i++) {
+            visited[nodes[i]] = false
+        }
+
+        async function BFS() {
+            // Init empty queue
+            var queue = new Queue()
+            queue.enqueue(nodes[0])
+
+            visit(nodes[0])
+
+            var id
+            var adjacentList
+
+            console.log(visited)
+
+            while (!queue.isEmpty()) {
+                id = queue.dequeue()
+
+                adjacentList = adjacent[id]
+                console.log(adjacentList, id)
+
+                for (child in adjacentList) {
+                    if (!visited[adjacentList[child]]) {
+                        await sleep(500)
+                        console.log(adjacentList[child])
+                        visit(adjacentList[child])
+                        queue.enqueue(adjacentList[child])
+                    }
+                }
+            }
+        }
+
+        function visit(nodeID) {
+            sleep(500)
+            visited[nodeID] = true
+            var node = document.getElementById(nodeID)
+            node.setAttribute('fill', '#0AC97E')
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+    </script>
+    <style media="screen">
+
+        body {
+            font-family: 'Nunito';
+            background-color: #f6f9fc;
+        }
+
+        html, body {
+            margin:0;
+            padding:0;
+        }
+
+        .main {
+            margin: auto;
+            width: 80%;
+            max-width: 900px;
+        }
+
+        svg {
+            top:0;
+            left:0;
+            height:100%;
+            width:100%;
+            padding:1%;
+            margin: auto;
+            box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+            background-color: white;
+            border-radius: 8px;
+        }
+
+        .svg-text {
+            font-size: 24px;
+        }
+
+        .svg-prepost {
+            font-size: 22px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 600;
+            display: inline-block;
+            float: left;
+            color: #32325d;
+        }
+
+        .graph {
+            margin: auto;
+        }
+
+        .vertex {
+            background-color: green;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        #doBFS {
+            background-color: #3ecf8e;
+            border: none;
+            font-family: 'Nunito';
+            font-size: 20px;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+            display: inline-block;
+            float: right;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        pre {
+            font-family: 'Nunito';
+        }
+    </style>
 </html>
