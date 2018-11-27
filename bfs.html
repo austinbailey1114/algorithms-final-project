@@ -148,27 +148,28 @@
         }
 
         async function BFS() {
-            // Init empty queue
+            // Init queue with first element
             var queue = new Queue()
             queue.enqueue(nodes[0])
 
+            // Visit first element
             visit(nodes[0])
 
+            // Variables to track the current node in the iteration
+            // id holds the string id (ex 'a'), adjacentList grabs its adjacent nodes
             var id
             var adjacentList
 
-            console.log(visited)
-
             while (!queue.isEmpty()) {
+
+                // Grab id and adjacent list
                 id = queue.dequeue()
-
                 adjacentList = adjacent[id]
-                console.log(adjacentList, id)
 
+                // Iterate through its children and visit them only if they have not been visited
                 for (child in adjacentList) {
                     if (!visited[adjacentList[child]]) {
-                        await sleep(500)
-                        console.log(adjacentList[child])
+                        await sleep(1500)
                         visit(adjacentList[child])
                         queue.enqueue(adjacentList[child])
                     }
@@ -176,8 +177,8 @@
             }
         }
 
+        // Handles visiting a node, by marking in it visited[] and changing its color
         function visit(nodeID) {
-            sleep(500)
             visited[nodeID] = true
             var node = document.getElementById(nodeID)
             node.setAttribute('fill', '#0AC97E')
