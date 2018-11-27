@@ -15,55 +15,46 @@
             <div class="graph">
                 <svg xmlns="http://www.w3.org/2000/svg" id="svg" viewBox="0 0 1000 550">
                     <g>
-                        <circle id="a" cx="50" cy="50" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="50" y="50">a</text>
-                        <text id="a-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="120" y="50">[ , ]</text>
+                        <circle id="a" cx="450" cy="225" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="450" y="225">a</text>
                     </g>
                     <g>
-                        <circle id="b" cx="150" cy="500" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="150" y="500">b</text>
-                        <text id="b-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="220" y="500">[ , ]</text>
+                        <circle id="b" cx="600" cy="250" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="600" y="250">b</text>
                     </g>
                     <g>
-                        <circle id="c" cx="250" cy="200" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="250" y="200">c</text>
-                        <text id="c-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="250" y="130">[ , ]</text>
+                        <circle id="c" cx="150" cy="150" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="150" y="150">c</text>
                     </g>
                     <g>
-                        <circle id="d" cx="350" cy="300" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="350" y="300">d</text>
-                        <text id="d-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="420" y="300">[ , ]</text>
+                        <circle id="d" cx="180" cy="380" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="180" y="380">d</text>
                     </g>
 
                     <g>
-                        <circle id="e" cx="500" cy="500" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="500" y="500">e</text>
-                        <text id="e-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="430" y="500">[ , ]</text>
+                        <circle id="e" cx="700" cy="350" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="700" y="350">e</text>
                     </g>
                     <g>
-                        <circle id="f" cx="400" cy="180" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="400" y="180">f</text>
-                        <text id="f-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="400" y="110">[ , ]</text>
+                        <circle id="f" cx="780" cy="150" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="780" y="150">f</text>
                     </g>
                     <g>
-                        <circle id="g" cx="800" cy="300" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="800" y="300">g</text>
-                        <text id="g-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="870" y="300">[ , ]</text>
+                        <circle id="g" cx="450" cy="500" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="450" y="500">g</text>
                     </g>
                     <g>
-                        <circle id="h" cx="700" cy="100" r="40" fill="#02A1E0"/>
-                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="700" y="100">h</text>
-                        <text id="h-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="770" y="100">[ , ]</text>
+                        <circle id="h" cx="650" cy="50" r="40" fill="#02A1E0"/>
+                        <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="650" y="50">h</text>
                     </g>
                     <g>
                         <circle id="i" cx="900" cy="500" r="40" fill="#02A1E0"/>
                         <text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="900" y="500">i</text>
-                        <text id="i-prepost" class="svg-prepost" text-anchor="middle" alignment-baseline="middle" x="900" y="430">[ , ]</text>
                     </g>
                 </svg>
             </div>
-            <div class="to-explore-cotainer">
-                <p id="to-explore">To Explore: a, b, c, d, e, f, g, h, i,</p>
+            <div class="queue-cotainer">
+                <p id="queue">Queue: [ a ]</p>
             </div>
         </div>
     </body>
@@ -83,16 +74,15 @@
         var adjacent = {
             a: [
                 'b',
-            ],
-            b: [
-                'c'
-            ],
-            c: [
-                'f',
+                'c',
                 'd'
             ],
+            b: [
+                'e',
+                'f'
+            ],
             d: [
-                'e'
+                'g'
             ],
             e: [
                 'g',
@@ -151,7 +141,6 @@
             // Init queue with first element
             var queue = new Queue()
             queue.enqueue(nodes[0])
-
             // Visit first element
             visit(nodes[0])
 
@@ -165,13 +154,13 @@
                 // Grab id and adjacent list
                 id = queue.dequeue()
                 adjacentList = adjacent[id]
-
                 // Iterate through its children and visit them only if they have not been visited
                 for (child in adjacentList) {
                     if (!visited[adjacentList[child]]) {
                         await sleep(1500)
                         visit(adjacentList[child])
                         queue.enqueue(adjacentList[child])
+                        outputQueue(queue)
                     }
                 }
             }
@@ -184,6 +173,12 @@
             node.setAttribute('fill', '#0AC97E')
         }
 
+        // Output the queue to the DOM
+        function outputQueue(queue) {
+            document.getElementById("queue").innerHTML = "Queue: [ " + queue.printQueue() + "]"
+        }
+
+        // Pause execution for given miliseconds
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -263,6 +258,10 @@
 
         pre {
             font-family: 'Nunito';
+        }
+
+        #queue {
+            font-size: 25px;
         }
     </style>
 </html>
