@@ -55,6 +55,7 @@
             </div>
             <div class="queue-cotainer">
                 <p id="queue">Queue: [ a ]</p>
+                <p id="last-enqueued-node">Last Enqueued Node: null</p>
             </div>
         </div>
     </body>
@@ -154,13 +155,14 @@
                 // Grab id and adjacent list
                 id = queue.dequeue()
                 adjacentList = adjacent[id]
+                outputQueue(queue, id)
                 // Iterate through its children and visit them only if they have not been visited
                 for (child in adjacentList) {
                     if (!visited[adjacentList[child]]) {
                         await sleep(1500)
                         visit(adjacentList[child])
                         queue.enqueue(adjacentList[child])
-                        outputQueue(queue)
+                        outputQueue(queue, id)
                     }
                 }
             }
@@ -174,8 +176,9 @@
         }
 
         // Output the queue to the DOM
-        function outputQueue(queue) {
+        function outputQueue(queue, id) {
             document.getElementById("queue").innerHTML = "Queue: [ " + queue.printQueue() + "]"
+            document.getElementById("last-enqueued-node").innerHTML = "Last Enqueued Node: " + id
         }
 
         // Pause execution for given miliseconds
@@ -260,7 +263,7 @@
             font-family: 'Nunito';
         }
 
-        #queue {
+        #queue, #last-enqueued-node {
             font-size: 25px;
         }
     </style>
