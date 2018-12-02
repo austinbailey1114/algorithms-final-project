@@ -62,7 +62,7 @@
                 </svg>
             </div>
             <div class="to-explore-cotainer">
-                <p id="to-explore">To Explore: a, b, c, d, e, f, g, h, i,</p>
+                <p id="to-explore">To Explore: a,</p>
             </div>
         </div>
     </body>
@@ -187,12 +187,18 @@
         }
 
         function outputToExplore(visited) {
-            var output = "To Explore: "
+            var output = ""
             for (var i = 0; i < nodes.length; i++) {
-                if (!visited[nodes[i]]) {
-                    output += nodes[i] + ", "
+                if (visited[nodes[i]]) {
+                    for (var j=adjacent[nodes[i]].length - 1; j >=0; j--){
+                      console.log( adjacent[nodes[i]], adjacent[nodes[i]][j])
+                        if (!visited[adjacent[nodes[i]][j]]){
+                            output = adjacent[nodes[i]][j] + ", " + output
+                        }
+                    }
                 }
             }
+            output = "To Explore: " + output
             console.log(output)
             document.getElementById("to-explore").innerHTML = output
         }

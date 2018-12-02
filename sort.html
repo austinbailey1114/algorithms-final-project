@@ -2,9 +2,156 @@
 <html lang="en" dir="ltr">
     <head>
         <meta charset="utf-8">
-        <title>Sort</title>
+        <title>Bubble Sort</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,700">
     </head>
     <body>
-        Nothing here yet
+        <div class="main">
+            <div class="title-container">
+                <p class="title">Bubble Sort</p>
+                <button id="doSort">Run Bubble Sort Visualization</button>
+            </div>
+            <div class="sort">
+                <svg xmlns="http://www.w3.org/2000/svg" id="svg" viewBox="0 0 1000 550">
+                  <g>
+                    <rect id=7 x="80" y="20" rx=20 ry=20 width="100" height="200" style="fill:rgb(215, 196, 255)"></rect>
+                    <text id=7-text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="130" y="110">7</text>
+                  </g>
+                  <g>
+                    <rect id=1 x="190" y="20" rx=20 ry=20 width="100" height="200" style="fill:rgb(228,255,133)"></rect>
+                    <text id=1-text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="240" y="110">1</text>
+                  </g>
+                  <g>
+                    <rect id=4 x="300" y="20" rx=20 ry=20 width="100" height="200" style="fill:rgb(136,229,252)"></rect>
+                    <text id=4-text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="350" y="110">4</text>
+                  </g>
+                  <g>
+                    <rect id=3 x="410" y="20" rx=20 ry=20 width="100" height="200" style="fill:rgb(86,232,164)"></rect>
+                    <text id=3-text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="460" y="110">3</text>
+                  </g>
+                  <g>
+                    <rect id=8 x="520" y="20" rx=20 ry=20 width="100" height="200" style="fill:rgb(203, 175, 237)"></rect>
+                    <text id=8-text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="570" y="110">8</text>
+                  </g>
+                  <g>
+                    <rect id=2 x="630" y="20" rx=20 ry=20 width="100" height="200" style="fill:rgb(184,255,41)"></rect>
+                    <text id=2-text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="680" y="110">2</text>
+                  </g>
+                  <g>
+                    <rect id=5 x="740" y="20" rx=20 ry=20 width="100" height="200" style="fill:rgb(196,243,255)"></rect>
+                    <text id=5-text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="790" y="110">5</text>
+                  </g>
+                  <g>
+                    <rect id=6 x="850" y="20" rx=20 ry=20 width="100" height="200" style="fill:rgb(196, 202, 255)"></rect>
+                    <text id=6-text class="svg-text" text-anchor="middle" alignment-baseline="middle" x="900" y="110">6</text>
+                  </g>
+                </svg>
+            </div>
+        </div>
     </body>
+    <script type="text/javascript">
+        document.getElementById("doSort").addEventListener("click", bubbleSort);
+
+        async function bubbleSort(){
+          var array = ['7', '1', '4', '3', '8', '2', '5', '6'];
+          var n = array.length
+          for (var i = 0; i < n; i++) {
+              for (var j = 0; j < n - i - 1; j++) {
+                  if (array[j] > array[j+1]) {
+                      swap(array, j);
+                      await sleep(500)
+                  }
+              }
+          }
+          console.log(array)
+        }
+
+        function swap(array, j) {
+            // Swap rectangles
+            var rect1 = document.getElementById(array[j]);
+            var rect2 = document.getElementById(array[j+1]);
+            var tempX = rect1.getAttribute('x');
+            rect1.setAttribute('x', rect2.getAttribute('x'));
+            rect2.setAttribute('x', tempX);
+            // Swap text
+            var rect1Text = document.getElementById(array[j] + "-text");
+            var rect2Text = document.getElementById(array[j + 1] + "-text");
+            tempX = rect1Text.getAttribute('x');
+            rect1Text.setAttribute('x', rect2Text.getAttribute('x'));
+            rect2Text.setAttribute('x', tempX);
+            var temp = array[j];
+            array[j] = array[j + 1];
+            array[j + 1] = temp
+        }
+
+        // Pause execution for given miliseconds
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+    <style media="screen">
+        body {
+            font-family: 'Nunito';
+            background-color: #f6f9fc;
+        }
+
+        html, body {
+            margin:0;
+            padding:0;
+        }
+
+        .main {
+            margin: auto;
+            width: 80%;
+            max-width: 900px;
+        }
+
+        svg {
+            top:0;
+            left:0;
+            height:100%;
+            width:100%;
+            padding:1%;
+            margin: auto;
+            box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+            background-color: white;
+            border-radius: 8px;
+        }
+
+        .svg-text {
+            font-size: 24px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 600;
+            display: inline-block;
+            float: left;
+            color: #32325d;
+        }
+
+        #doSort {
+            background-color: #3ecf8e;
+            border: none;
+            font-family: 'Nunito';
+            font-size: 20px;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+            display: inline-block;
+            float: right;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        pre {
+            font-family: 'Nunito';
+        }
+
+        #to-explore {
+            font-size: 25px;
+        }
+    </style>
+
 </html>

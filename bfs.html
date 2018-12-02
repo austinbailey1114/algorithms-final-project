@@ -55,7 +55,7 @@
             </div>
             <div class="queue-cotainer">
                 <p id="queue">Queue: [ a ]</p>
-                <p id="last-enqueued-node">Last Enqueued Node: null</p>
+                <!--<p id="last-enqueued-node">Last Enqueued Node: null</p>-->
             </div>
         </div>
     </body>
@@ -82,6 +82,7 @@
                 'e',
                 'f'
             ],
+            c:[],
             d: [
                 'g'
             ],
@@ -92,6 +93,9 @@
             f: [
                 'h'
             ],
+            g:[],
+            h:[],
+            i:[]
         };
 
         // SVG Element to have lines appended to
@@ -149,20 +153,71 @@
             // id holds the string id (ex 'a'), adjacentList grabs its adjacent nodes
             var id
             var adjacentList
+            var toex = []
+            var realtoex
+            var count = 0
+            var temp=[]
+
+            console.log(adjacent[a])
+            console.log(adjacent['a'])
 
             while (!queue.isEmpty()) {
 
                 // Grab id and adjacent list
                 id = queue.dequeue()
+
+                console.log(queue.printQueue(), id)
                 adjacentList = adjacent[id]
-                outputQueue(queue, id)
+                console.log(adjacentList, id, "adjacent list", count)
+                if (!(adjacentList.length==0) && toex!= ''){
+                for (node in adjacentList){
+                  console.log("forloop checking")
+                  if (toex.indexOf(adjacentList[node])!=-1 || visited[adjacentList[node]]){
+
+                  }else{
+                    console.log(toex.indexOf(adjacentList[node]), "indexof")
+                    toex= toex + ',' + adjacentList[node]
+                  }
+                }
+                }else{
+                if (!(adjacentList.length==0)){
+                  toex= adjacentList
+                }
+                }
+                console.log(toex, count)
+                outputQueue(toex, id)
+                count++
+
                 // Iterate through its children and visit them only if they have not been visited
                 for (child in adjacentList) {
                     if (!visited[adjacentList[child]]) {
+
+                        console.log(adjacent[adjacentList[child]], adjacentList[child])
+                        if (!(adjacent[adjacentList[child]].length ==0)){
+                          for (node in adjacent[adjacentList[child]]){
+                            console.log("forloop checking")
+                            if (toex.indexOf(adjacent[adjacentList[child]][node])!=-1 || visited[adjacent[adjacentList[child]][node]]){
+
+                            }else{
+                              console.log(adjacent[adjacentList[child]][node], "indexof")
+                              toex= toex + ',' + adjacent[adjacentList[child]][node]
+                            }
+                          }
+                        }
+                        console.log(toex)
                         await sleep(1500)
                         visit(adjacentList[child])
+                        temp=[]
+                        for (nod in toex){
+                          if (nod > 1){
+                            temp= temp+toex[nod]
+                          }
+                        }
+                        console.log(temp)
+                        toex=temp
                         queue.enqueue(adjacentList[child])
-                        outputQueue(queue, id)
+                        outputQueue(toex, id)
+                        console.log(toex)
                     }
                 }
             }
@@ -177,8 +232,8 @@
 
         // Output the queue to the DOM
         function outputQueue(queue, id) {
-            document.getElementById("queue").innerHTML = "Queue: [ " + queue.printQueue() + "]"
-            document.getElementById("last-enqueued-node").innerHTML = "Last Enqueued Node: " + id
+            document.getElementById("queue").innerHTML = "Queue: [ " + queue + "]"
+            //document.getElementById("last-enqueued-node").innerHTML = "Last Enqueued Node: " + id
         }
 
         // Pause execution for given miliseconds
