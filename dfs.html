@@ -64,6 +64,26 @@
             <div class="to-explore-cotainer">
                 <p id="to-explore">To Explore: a,</p>
             </div>
+            <div class=codeblock>
+              <p>function DFS() {
+                <p class=single>var visited = {};</p>
+                <p class=single>for (var i = 0; i < nodes.length; i++) {</p>
+                <p class=double>visited[nodes[i]] = false</p>
+                <p class=single>}</p>
+                <p class=single>dfsHelper(nodes[0], visited)</p>
+                <p>}</p>
+                <p><br></p>
+                <p>async function dfsHelper(index, visited) {</p>
+                <p class=single>visited[index] = true</p>
+                <p class=single>var currentNode = adjacent[index]</p>
+                <p class=single>for (child in currentNode) {</p>
+                <p class=double>if (!visited[currentNode[child]]) {</p>
+                <p class=triple>dfsHelper(currentNode[child], visited)</p>
+                <p class=double>}</p>
+                <p class=single>}</p>
+                <p>}</p>
+              </p>
+            </div>
         </div>
     </body>
     <script type="text/javascript">
@@ -100,6 +120,9 @@
             f: [
                 'h'
             ],
+            g:[],
+            h:[],
+            i:[]
         };
 
         // SVG Element to have lines appended to
@@ -273,6 +296,33 @@
             float: right;
             cursor: pointer;
             margin-top: 30px;
+        }
+        .codeblock{
+          background-color: #C6C9Cc;
+          border-radius: 8px;
+          text-indent: 5px;
+
+        }
+        .codeblock p{
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
+        .single{
+          text-indent: 20px;
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+        .double{
+          text-indent: 35px;
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
+        .triple{
+          text-indent: 50px;
+          margin-top: 0;
+          margin-bottom: 0;
         }
 
         pre {
